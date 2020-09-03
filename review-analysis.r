@@ -43,69 +43,69 @@ docvars(mycorpus, "Textno") <- sprintf("%02d", 1:ndoc(mycorpus))
 mycorpus.stats <- summary(mycorpus)
 head(mycorpus.stats, n = 10)
 token <-
-+     tokens(
-+         mycorpus,
-+         remove_numbers = TRUE,
-+         remove_punct = TRUE,
-+         remove_symbols = TRUE,
-+         what = "word“,
-+         remove_url = TRUE,
-+         split_hyphens,
-+         include_docvars = TRUE
-+     )
+     tokens(
+         mycorpus,
+         remove_numbers = TRUE,
+         remove_punct = TRUE,
+         remove_symbols = TRUE,
+         what = "word“,
+         remove_url = TRUE,
+         split_hyphens,
+         include_docvars = TRUE
+     )
 token_ungd <- tokens_select(
-+     token,
-+     c("[\\d-]", "[[:punct:]]", "^.{1,2}$"),
-+     selection = "remove",
-+     valuetype = "regex",
-+     verbose = TRUE)
+     token,
+     c("[\\d-]", "[[:punct:]]", "^.{1,2}$"),
+     selection = "remove",
+     valuetype = "regex",
+     verbose = TRUE)
 mydfm <- dfm(token_ungd,
-+              tolower = TRUE,
-+              stem = TRUE,
-+              remove = stopwords("english"))
+              tolower = TRUE,
+              stem = TRUE,
+              remove = stopwords("english"))
 mydfm.trim <-
-+     dfm_trim(
-+         mydfm,
-+         min_docfreq = 0.075,
-+         max_docfreq = 0.90,
-+         docfreq_type = "prop")
+     dfm_trim(
+         mydfm,
+         min_docfreq = 0.075,
+         max_docfreq = 0.90,
+         docfreq_type = "prop")
 head(dfm_sort(mydfm.trim, decreasing = TRUE, margin = "both"),
-+      n = 10,
-+      nf = 10) 
+      n = 10,
+      nf = 10) 
 topic.count <- 10
 library(stm)
 dfm2stm <- convert(mydfm.trim, to = "stm")
 model.stm <- stm(
-+     dfm2stm$documents,
-+     dfm2stm$vocab,
-+     K = topic.count,
-+     data = dfm2stm$meta,
-+     init.type = "Spectral")
+     dfm2stm$documents,
+     dfm2stm$vocab,
+     K = topic.count,
+     data = dfm2stm$meta,
+     init.type = "Spectral")
 plot(
-+     model.stm,
-+     type = "summary",
-+     text.cex = 0.5,
-+     main = "STM topic shares",
-+     xlab = "Share estimation")
+     model.stm,
+     type = "summary",
+     text.cex = 0.5,
+     main = "STM topic shares",
+     xlab = "Share estimation")
 model.stm.corr <- topicCorr(model.stm)
 plot.topicCorr(model.stm.corr, method = "huge")
 plot(model.stm,
-+      type = "perspectives",
-+      topics = c(1, 2),
-+      main = "Putting two different topics in perspective")
+      type = "perspectives",
+      topics = c(1, 2),
+      main = "Putting two different topics in perspective")
 plot(model.stm,
-+      type = "perspectives",
-+      topics = c(3, 4),
-+      main = "Putting two different topics in perspective")
+      type = "perspectives",
+      topics = c(3, 4),
+      main = "Putting two different topics in perspective")
 plot(model.stm,
-+      type = "perspectives",
-+      topics = c(5, 6),
-+      main = "Putting two different topics in perspective")
+      type = "perspectives",
+      topics = c(5, 6),
+      main = "Putting two different topics in perspective")
 plot(model.stm,
-+      type = "perspectives",
-+      topics = c(7, 8),
-+      main = "Putting two different topics in perspective")
+      type = "perspectives",
+      topics = c(7, 8),
+      main = "Putting two different topics in perspective")
 plot(model.stm,
-+      type = "perspectives",
-+      topics = c(9, 10),
-+      main = "Putting two different topics in perspective")
+      type = "perspectives",
+      topics = c(9, 10),
+      main = "Putting two different topics in perspective")
